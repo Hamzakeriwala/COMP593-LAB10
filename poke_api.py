@@ -64,7 +64,28 @@ def get_pokemon_names():
     
     
 # Define function that downloads and saves Pokemon artwork
-
+def get_pokemon_art(pokemon, image_dir):
+    poke_info = get_pokemon_info(pokemon)
+    if not poke_info:
+        return
+    
+    #using a different method
+    art_url = poke_info.get("sprites", {}).get("other", {}).get("official-artwork", {}).get("front_default")
+    if not art_url:
+        print("Error: art_url")
+        
+    file_ext = art_url.split(".")[-1]
+    image_path = os.path.join(image_dir, f"{pokemon}.{file_ext}")
+    if os.path.isfile(image_path):
+        return image_path
+                
+    image_data = image_lib.download_image(art_url)
+    if not image_data:
+        return
+    
+    
+    if image_lib.save_image_file(image_data, image_path):
+        return image_path
 
 
 if __name__ == '__main__':
