@@ -7,20 +7,30 @@ Usage:
   python poke_image_viewer.py
 """
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, PhotoImage, messagebox
 import os
+import ctypes
+import poke_api
 
 # Get the script and images directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(script_dir, 'images')
 
-# TODO: Create the images directory if it does not exist
+# Create the images directory if it does not exist
+if not os.path.isdir(images_dir):
+    os.makedirs(images_dir)
 
 # Create the main window
 root = Tk()
 root.title("Pokemon Viewer")
+root.minsize(500, 600)
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
 
-# TODO: Set the icon
+# Set the icon
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("COMP593.PokeImageViewer")
+root.iconbitmap(os.path.join(script_dir, "poke_ball.ico"))
+
 
 # TODO: Create frames
 
