@@ -2,6 +2,8 @@
 Library for interacting with the PokeAPI.
 https://pokeapi.co/
 '''
+import os
+import image_lib
 import requests
 
 POKE_API_URL = 'https://pokeapi.co/api/v2/pokemon/'
@@ -46,9 +48,24 @@ def get_pokemon_info(pokemon):
         print('failure')
         print(f'Response code: {resp_msg.status_code} ({resp_msg.reason})')
 
-    # TODO: Define function that gets a list of all Pokemon names from the PokeAPI
+# Define function that gets a list of all Pokemon names from the PokeAPI
+def get_pokemon_names():
+    print("Getting lists of pokemon names..........", end="")
+    params = {"limit": 2000, "offset": 0}
+    resp_msg = requests.get(POKE_API_URL, params=params)
+    if resp_msg.status_code == requests.codes.ok:
+        pokemon_data = resp_msg.json()
+        pokemon_names = [pokemon["name"] for pokemon in pokemon_data["results"]]
+        print("success")
+        return pokemon_names
+    else:
+        print("failure")
+        return []
+    
+    
+# Define function that downloads and saves Pokemon artwork
 
-    # TODO: Define function that downloads and saves Pokemon artwork
+
 
 if __name__ == '__main__':
     main()
